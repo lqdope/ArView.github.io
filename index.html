@@ -1,49 +1,39 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <title>My first three.js app</title>
+        <style>
+            body { margin: 0; }
+        </style>
+    </head>
+    <body>
+        <script type="module">
+            import * as THREE from 'https://unpkg.com/three/build/three.module.js';
 
-<head>
-  <title>My first three.js app</title>
-  <style>
-    body {
-      margin: 0;
-    }
-  </style>
-</head>
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
-<body>
-  <script type="module">
-    import * as THREE from 'three';
-    import * as LocAR from 'locar';
+            const renderer = new THREE.WebGLRenderer();
+            renderer.setSize( window.innerWidth, window.innerHeight );
+            document.body.appendChild( renderer.domElement );
 
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.001, 100);
-    const renderer = new THREE.WebGLRenderer();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
+            const geometry = new THREE.BoxGeometry();
+            const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+            const cube = new THREE.Mesh( geometry, material );
+            scene.add( cube );
 
-    window.addEventListener("resize", e => {
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-    });
-    const box = new THREE.BoxGeometry(2, 2, 2);
-    const cube = new THREE.Mesh(box, new THREE.MeshBasicMaterial({ color: 0xff0000 }));
+            camera.position.z = 5;
 
-    const locar = new LocAR.LocationBased(scene, camera);
-    const cam = new LocAR.WebcamRenderer(renderer);
+            const animate = function () {
+                requestAnimationFrame( animate );
 
+                cube.rotation.x += 0.01;
+                cube.rotation.y += 0.01;
 
-    locar.fakeGps(-0.72, 51.05);
-    locar.add(cube, -0.72, 51.0501);
+                renderer.render( scene, camera );
+            };
 
-    renderer.setAnimationLoop(animate);
-
-
-    function animate() {
-      cam.update();
-      renderer.render(scene, camera);
-    }
-  </script>
-</body>
-
+            animate();
+        </script>
+    </body>
 </html>
