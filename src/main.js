@@ -1,68 +1,29 @@
-import * as THREE from 'three';
-import * as LocAR from 'locar';
+import * as THREE from 'three'
+//import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-const camera = new THREE.PerspectiveCamera(80, window.innerWidth/window.innerHeight, 0.001, 1000);
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
 const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth, window.innerHeight, 0.1, 1000);
 
+const renderer = new THREE.WebGLRenderer();
 
+renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
+const geometry = new THREE.BoxGeometry();
+const material = new THREE.MeshBasicMaterial({color:0x00ff00});
+const cube = new THREE.Mesh(geometry, material);
 
-window.addEventListener("resize", e => {
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-});
+scene.add(cube);
 
-const locar = new LocAR.LocationBased(scene, camera);
+camera.position.z = 5;
 
-const deviceControls = new LocAR.DeviceOrientationControls(camera);
+const animate = function () {
+    requestAnimationFrame(animate);
 
-const cam = new LocAR.WebcamRenderer(renderer);
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
 
-
-let firstPosition = true;
-
-const indexedObjects = { };
-
-const cube = new THREE.BoxGeometry(20, 20, 20);
-
-const clickHandler = new LocAR.ClickHandler(renderer);
-
-locar.on("gpsupdate", async(pos, distMoved) => {
-
-    if(firstPosition || distMoved > 100) {
-
-        const response = await fetch(`https://hikar.org/webapp/map?bbox=${pos.coords.longitude-0.02},${pos.coords.latitude-0.02},${pos.coords.longitude+0.02},${pos.coords.latitude+0.02}&layers=poi&outProj=4326`);
-        const pois = await response.json();
-
-        pois.features.forEach ( poi => {
-            if(!indexedObjects[poi.properties.osm_id]) {
-                const mesh = new THREE.Mesh(
-                    cube,
-                    new THREE.MeshBasicMaterial({color: 0xff0000})
-                );                
-
-                locar.add(
-                    mesh, 
-                    poi.geometry.coordinates[0], 
-                    poi.geometry.coordinates[1]
-                );
-                indexedObjects[poi.properties.osm_id] = mesh;
-            }
-        });
-        firstPosition = false;
-    }
-
-});
-locar.startGps();
-
-renderer.setAnimationLoop(animate);
-
-function animate() {
-    cam.update();
-    deviceControls.update();
     renderer.render(scene, camera);
-}
+};
+
+animate();
