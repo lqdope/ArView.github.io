@@ -1,0 +1,28 @@
+{
+  "name": "arview",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev" : "vite dev",
+    "build": "vite build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lqdope/ArView.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lqdope/ArView/issues"
+  },
+  "homepage": "https://github.com/lqdope/ArView#readme",
+  "description": "",
+  "dependencies": {
+    "locar": "^0.0.12",
+    "three": "^0.178.0"
+  },
+  "devDependencies": {
+    "vite": "^7.0.5"
+  }
+}
