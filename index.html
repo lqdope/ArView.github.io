@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1" />
-<title>LocAR.js example 3</title>
-<link rel='stylesheet' type='text/css' href='../css/style.css' />
-<script type='module' src='src/main.js'></script>
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+  <title>LocAR.js example 3</title>
+  <link rel='stylesheet' type='text/css' href='../css/style.css' />
+  <script type='module' src='src/main.js'></script>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 </head>
+
 <body>
-<main>
-<div id="gpsinput">
-<div><input id="fakeLat" placeholder="Fake Lat" /></div>
-<div><input id="fakeLon" placeholder="Fake Lon"/></div>
-<div><button id="setFakeLoc">Set Fake Location!</button></div>
-</div>
-<canvas id="glscene"></canvas>
-</main>
+  <main>
+    <model-viewer src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
+      ios-src="https://modelviewer.dev/shared-assets/models/Astronaut.usdz" alt="A 3D model of an astronaut" ar
+      auto-rotate camera-controls></model-viewer>
+  </main>
 </body>
+
 </html>
